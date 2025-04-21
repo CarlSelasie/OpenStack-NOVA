@@ -159,61 +159,59 @@ then recheck your horizon GUI</code></pre>
 
 
 
-Task 2 – Magnum service deployment
+Task 2 
+Magnum service deployment
 https://docs.openstack.org/magnum/2025.1/install/install-ubuntu.html
 
-1.	setup mysql database
-mysql
+1.	Setup mysql database
+<pre><code class="language-sql">mysql</code></pre>
 
 2.	In the mysql prompt run 
-CREATE DATABASE magnum;
+<pre><code class="language-sql">CREATE DATABASE magnum;
 GRANT ALL PRIVILEGES ON magnum.* TO 'magnum'@'localhost' IDENTIFIED BY 'plungers4900';
 GRANT ALL PRIVILEGES ON magnum.* TO 'magnum'@'%' IDENTIFIED BY 'plungers4900';
-exit;
+exit;</code></pre>
 
 3.	Create magnum and assign roles 
-openstack user create --domain default --password-prompt magnum
+<pre><code class="language-sql">openstack user create --domain default --password-prompt magnum </code></pre>
 
 Enter password: plungers4900
-openstack role add --project service --user magnum admin
+<pre><code class="language-sql">openstack role add --project service --user magnum admin </code></pre>
 
 4.	Create the Magnum service
-openstack service create --name magnum \
+<pre><code class="language-sql">openstack service create --name magnum \
   --description "OpenStack Container Infrastructure Management Service" \
-container-infra
+container-infra </code></pre>
 
 5.	Create API endpoints
-openstack endpoint create --region RegionOne \
-container-infra public http://controller:9511/v1
+<pre><code class="language-sql">openstack endpoint create --region RegionOne \
+container-infra public http://controller:9511/v1 </code></pre>
 
-openstack endpoint create --region RegionOne \
-container-infra internal http://controller:9511/v1
+<pre><code class="language-sql">openstack endpoint create --region RegionOne \
+container-infra internal http://controller:9511/v1 </code></pre>
 
-openstack endpoint create --region RegionOne \
-container-infra admin http://controller:9511/v1
+<pre><code class="language-sql">openstack endpoint create --region RegionOne \
+container-infra admin http://controller:9511/v1 </code></pre>
 
 
 6.	Create Magnum domain and domain admin
-openstack domain create --description "Owns users and projects created by \ magnum" magnum
+<pre><code class="language-sql">openstack domain create --description "Owns users and projects created by \ magnum" magnum </code></pre>
 
-openstack user create --domain magnum --password-prompt magnum_domain_admin
+<pre><code class="language-sql">openstack user create --domain magnum --password-prompt magnum_domain_admin </code></pre>
 
 Enter password: plungers4900
-openstack role add --domain magnum --user-domain magnum –user \  magnum_domain_admin admin
+<pre><code class="language-sql">openstack role add --domain magnum --user-domain magnum –user \  magnum_domain_admin admin</code></pre>
 
 7.	Install package
-DEBIAN_FRONTEND=noninteractive apt-get install magnum-api magnum-conductor python3-magnumclient
+<pre><code class="language-sql">DEBIAN_FRONTEND=noninteractive apt-get install magnum-api magnum-conductor python3-magnumclient</code></pre>
 
 8.	Apply Configuration
 mv /etc/magnum/magnum.conf   /etc/magnum/magnum.conf.orig
 
-
 mkdir -p ~/os-template-files
 nano ~/os-template-files/magnum.conf
 
- 
-             Then p
-             [DEFAULT]
+
 transport_url = rabbit://openstack:plungers4900@controller
 host = controller
 state_path = /var/lib/magnum
