@@ -11,7 +11,7 @@ Before you install and configure Orchestration, you must create a database, serv
 mysql                      #Execute in root@controller
 
 •	Create the heat database:
-'CREATE DATABASE heat;'
+'''CREATE DATABASE heat;
 
 •	Grant proper access to the heat database:
 GRANT ALL PRIVILEGES ON heat.* TO 'heat'@'localhost' I will schedule some time for us to connect.
