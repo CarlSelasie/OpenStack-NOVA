@@ -208,8 +208,8 @@ Enter password: plungers4900
 8.	Apply Configuration
 mv /etc/magnum/magnum.conf   /etc/magnum/magnum.conf.orig
 
-mkdir -p ~/os-template-files
-nano ~/os-template-files/magnum.conf
+<pre><code class="language-sql">mkdir -p ~/os-template-files
+nano ~/os-template-files/magnum.conf </code></pre>
 
 
 transport_url = rabbit://openstack:plungers4900@controller
