@@ -296,19 +296,19 @@ Save and Exit
 
 Run this After in root controller
 
-cp ~/os-template-files/magnum.conf   /etc/magnum/magnum.conf
+<pre><code class="language-sql">cp ~/os-template-files/magnum.conf   /etc/magnum/magnum.conf
 chown magnum:magnum   /etc/magnum/magnum.conf
-chmod 640    /etc/magnum/magnum.conf
+chmod 640    /etc/magnum/magnum.conf  </code></pre>
 
 
 
 
 9.	Populate database
-su -s /bin/sh -c "magnum-db-manage upgrade" magnum
+<pre><code class="language-sql">su -s /bin/sh -c "magnum-db-manage upgrade" magnum </code></pre>
 
 10.	Finalize installation
-service magnum-api restart
-service magnum-conductor restart
+<pre><code class="language-sql">service magnum-api restart
+service magnum-conductor restart </code></pre>
 
 
 To enable magnum on the Horizon dashboard
