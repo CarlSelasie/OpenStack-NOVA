@@ -1,5 +1,5 @@
 # OpenStack-NOVA
-TASK 1- Heat Deployment 
+Task 1- Heat Deployment 
 
 OpenStack Heat Recipe (Run all steps in root@controller)
 Prerequisite
