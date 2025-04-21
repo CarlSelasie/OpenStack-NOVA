@@ -26,7 +26,7 @@ exit </code></pre>
 
 2.	To create the service credentials, complete these steps:
 •	Create the heat user:
-openstack user create --domain default --password-prompt heat
+<pre><code class="language-sql">openstack user create --domain default --password-prompt heat </code></pre>
 #User Password:plungers4900
 Repeat User Password:plungers4900
 #Execute in root@controller
