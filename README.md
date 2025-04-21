@@ -418,7 +418,7 @@ password = plungers4900
 lock_path = /var/lib/cinder/tmp
 
  
-su -s /bin/sh -c "cinder-manage db sync" cinder
+<pre><code class="language-sql">su -s /bin/sh -c "cinder-manage db sync" cinder</code></pre>
 
  
 STEP 7: Link Nova to Cinder
