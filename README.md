@@ -12,17 +12,17 @@ Before you install and configure Orchestration, you must create a database, serv
 <pre><code class="language-sql">mysql</code></pre>                      #Execute in root@controller
 
 •	Create the heat database:
-CREATE DATABASE heat;
+<pre><code class="language-sql"> CREATE DATABASE heat; </code></pre>
 
 <pre><code class="language-sql"> CREATE DATABASE heat; GRANT ALL PRIVILEGES ON heat.* TO 'heat'@'localhost' IDENTIFIED BY 'plungers4900'; GRANT ALL PRIVILEGES ON heat.* TO 'heat'@'%' IDENTIFIED BY 'plungers4900'; EXIT; </code></pre>
 
 
 •	Grant proper access to the heat database:
-GRANT ALL PRIVILEGES ON heat.* TO 'heat'@'localhost' I will schedule some time for us to connect.
+<pre><code class="language-sql">GRANT ALL PRIVILEGES ON heat.* TO 'heat'@'localhost' \
   IDENTIFIED BY 'plungers4900';
 GRANT ALL PRIVILEGES ON heat.* TO 'heat'@'%' \
   IDENTIFIED BY 'plungers4900';
-exit
+exit </code></pre>
 
 2.	To create the service credentials, complete these steps:
 •	Create the heat user:
