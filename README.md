@@ -312,14 +312,14 @@ service magnum-conductor restart </code></pre>
 
 
 To enable magnum on the Horizon dashboard
-apt install python3-magnum-ui
+<pre><code class="language-sql">apt install python3-magnum-ui </code></pre>
 
 
 After installation, restart the Horizon web server
-systemctl restart apache2
+<pre><code class="language-sql">systemctl restart apache2 </code></pre>
 
 Then log back in to Horizon if you get an error, run this command
-nano /etc/openstack-dashboard/local_settings.py
+<pre><code class="language-sql">nano /etc/openstack-dashboard/local_settings.py </code></pre>
 
 Look for this line:
 COMPRESS_OFFLINE = True
@@ -330,8 +330,119 @@ COMPRESS_OFFLINE = False
 This will disable offline compression and let Horizon dynamically compress assets.
 
 Then restart Apache again:
-systemctl restart apache2
+<pre><code class="language-sql">systemctl restart apache2 </code></pre>
 
+
+
+Task 3
+1.	Setup mysql database
+mysql
+
+2.	In the mysql prompt run 
+CREATE DATABASE cinder;
+
+GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'localhost' IDENTIFIED BY 'plungers4900';
+
+GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'%' IDENTIFIED BY 'plungers4900';
+
+EXIT;
+
+ 
+. ~/.bash_aliases   # Loads admin environment for root user
+
+ 
+openstack user create --domain default --password-prompt cinder
+
+# Enter: plungers4900
+
+openstack role add --project service --user cinder admin
+
+ 
+openstack service create --name cinderv3 --description "OpenStack Block Storage" volumev3
+ 
+openstack endpoint create --region RegionOne volumev3 public http://controller:8776/v3/%\(project_id\)s
+
+openstack endpoint create --region RegionOne volumev3 internal http://controller:8776/v3/%\(project_id\)s
+
+openstack endpoint create --region RegionOne volumev3 admin http://controller:8776/v3/%\(project_id\)s
+
+ 
+apt install cinder-api cinder-scheduler
+
+ 
+STEP 5: Apply Cinder Configuration  
+ 
+mv /etc/cinder/cinder.conf /etc/cinder/cinder.conf.orig
+
+cp ~/os-template-files/cinder.conf /etc/cinder/cinder.conf
+
+chown root:cinder /etc/cinder/cinder.conf
+
+chmod 640 /etc/cinder/cinder.conf
+
+ 
+[database]
+
+connection = mysql+pymysql://cinder:plungers4900@controller/cinder
+ 
+[DEFAULT]
+
+transport_url = rabbit://openstack:plungers4900@controller
+
+auth_strategy = keystone
+
+my_ip = 192.168.122.100
+ 
+[keystone_authtoken]
+
+www_authenticate_uri = http://controller:5000
+
+auth_url = http://controller:5000
+
+memcached_servers = controller:11211
+
+auth_type = password
+
+project_domain_name = Default
+
+user_domain_name = Default
+
+project_name = service
+
+username = cinder
+
+password = plungers4900
+ 
+[oslo_concurrency]
+
+lock_path = /var/lib/cinder/tmp
+
+ 
+su -s /bin/sh -c "cinder-manage db sync" cinder
+
+ 
+STEP 7: Link Nova to Cinder
+Add this block to /etc/nova/nova.conf:
+ 
+[cinder]
+
+os_region_name = RegionOne
+
+ 
+service nova-api restart
+
+service cinder-scheduler restart
+
+service apache2 restart
+
+ 
+STEP 9: Verify Cinder
+ 
+openstack volume service list
+
+openstack catalog list | grep volume
+
+ 
 
 
 
