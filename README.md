@@ -1,5 +1,5 @@
 # OpenStack-NOVA
-Heat Deloyment 
+Heat Deployment 
 Recipe - Deploying OpenStack Nova Using the Nova Function 
 
 
@@ -9,10 +9,10 @@ Prerequisite
 Before you install and configure Orchestration, you must create a database, service credentials, and API endpoints. Orchestration also requires additional information in the Identity service.
 1.	To create the database, complete these steps:
 •	Use the database access client to connect to the database server as the root user:
-mysql                      #Execute in root@controller
+<pre><code class="language-sql">mysql</code></pre>                      #Execute in root@controller
 
 •	Create the heat database:
-'''CREATE DATABASE heat;
+CREATE DATABASE heat;
 
 <pre><code class="language-sql"> CREATE DATABASE heat; GRANT ALL PRIVILEGES ON heat.* TO 'heat'@'localhost' IDENTIFIED BY 'plungers4900'; GRANT ALL PRIVILEGES ON heat.* TO 'heat'@'%' IDENTIFIED BY 'plungers4900'; EXIT; </code></pre>
 
