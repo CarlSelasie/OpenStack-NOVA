@@ -3,7 +3,7 @@ Recipe - Deploying OpenStack Nova Using the Nova Function
 
 
 Open Stack Heat Recipe (Run all steps in root@controller)
-Prerequisites
+Prerequisite
 
 Before you install and configure Orchestration, you must create a database, service credentials, and API endpoints. Orchestration also requires additional information in the Identity service.
 1.	To create the database, complete these steps:
@@ -213,7 +213,48 @@ mkdir -p ~/os-template-files
 nano ~/os-template-files/magnum.conf
 
  
-             Then paste this 
+             Then p
+             [DEFAULT]
+transport_url = rabbit://openstack:plungers4900@controller
+host = controller
+state_path = /var/lib/magnum
+debug = False
+log_dir = /var/log/magnum
+use_syslog = False
+
+[api]
+host = 0.0.0.0
+port = 9511
+
+[certificates]
+cert_manager_type = barbican
+
+[cinder_client]
+region_name = RegionOne
+
+[database]
+connection = mysql+pymysql://magnum:plungers4900@controller/magnum
+
+[keystone_authtoken]
+auth_type = password
+auth_url = http://controller:5000
+www_authenticate_uri = http://controller:5000
+memcached_servers = controller:11211
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = magnum
+password = plungers4900
+
+[trust]
+trustee_domain_name = magnum
+trustee_domain_admin_name = magnum_domain_admin
+trustee_domain_admin_password = plungers4900
+trustee_keystone_interface = public
+
+[oslo_messaging_notifications]
+driver = messaging
+             aste this
 [DEFAULT]
 transport_url = rabbit://openstack:plungers4900@controller
 host = controller
