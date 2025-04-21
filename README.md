@@ -1,9 +1,7 @@
 # OpenStack-NOVA
-Heat Deployment 
-Recipe - Deploying OpenStack Nova Using the Nova Function 
+TASK 1- Heat Deployment 
 
-
-Open Stack Heat Recipe (Run all steps in root@controller)
+OpenStack Heat Recipe (Run all steps in root@controller)
 Prerequisite
 
 Before you install and configure Orchestration, you must create a database, service credentials, and API endpoints. Orchestration also requires additional information in the Identity service.
