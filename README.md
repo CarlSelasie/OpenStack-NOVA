@@ -32,78 +32,75 @@ Repeat User Password:plungers4900
 #Execute in root@controller
 
 •	Add the admin role to the heat user:
-openstack role add --project service --user heat admin
+<pre><code class="language-sql">openstack role add --project service --user heat admin </code></pre>
 #This command provides no output.
 #Execute in root@controller
 
 •	Create the heat and heat-cfn service entities:
-openstack service create --name heat \
-  --description "Orchestration" orchestration
+<pre><code class="language-sql">openstack service create --name heat \
+  --description "Orchestration" orchestration </code></pre>
 
-openstack service create --name heat-cfn \
-  --description "Orchestration"  cloudformation
+<pre><code class="language-sql">openstack service create --name heat-cfn \
+  --description "Orchestration"  cloudformation </code></pre>
 #Execute in root@controller
 
 3.	Create the Orchestration service API endpoints:
-openstack endpoint create --region RegionOne \
-  orchestration public http://controller:8004/v1/%\(tenant_id\)s
+<pre><code class="language-sql">openstack endpoint create --region RegionOne \
+  orchestration public http://controller:8004/v1/%\(tenant_id\)s </code></pre>
 
 
-openstack endpoint create --region RegionOne \
-  orchestration internal http://controller:8004/v1/%\(tenant_id\)s
+<pre><code class="language-sql">openstack endpoint create --region RegionOne \
+  orchestration internal http://controller:8004/v1/%\(tenant_id\)s </code></pre>
 
-openstack endpoint create --region RegionOne \
-  orchestration admin http://controller:8004/v1/%\(tenant_id\)s
-
-
-
+<pre><code class="language-sql">openstack endpoint create --region RegionOne \
+  orchestration admin http://controller:8004/v1/%\(tenant_id\)s </code></pre>
 
 
 
-openstack endpoint create --region RegionOne \
-  cloudformation public http://controller:8000/v1
+<pre><code class="language-sql">openstack endpoint create --region RegionOne \
+  cloudformation public http://controller:8000/v1 </code></pre>
 
-openstack endpoint create --region RegionOne \
-  cloudformation internal http://controller:8000/v1
+<pre><code class="language-sql">openstack endpoint create --region RegionOne \
+  cloudformation internal http://controller:8000/v1 </code></pre>
 
-openstack endpoint create --region RegionOne \
-  cloudformation admin http://controller:8000/v1
+<pre><code class="language-sql">openstack endpoint create --region RegionOne \
+  cloudformation admin http://controller:8000/v1</code></pre>
 
 
 
 4.	Orchestration requires additional information in the Identity service to manage stacks. To add this information, complete these steps:
 •	Create the heat domain that contains projects and users for stacks:
-openstack domain create --description "Stack projects and users" heat
+<pre><code class="language-sql">openstack domain create --description "Stack projects and users" heat </code></pre>
 
 •	Create the heat_domain_admin user to manage projects and users in the heat domain:
-openstack user create --domain heat --password-prompt heat_domain_admin
+<pre><code class="language-sql">openstack user create --domain heat --password-prompt heat_domain_admin </code></pre>
 User Password: plungers4900
 Repeat User Password: plungers4900
 
 •	Add the admin role to the heat_domain_admin user in the heat domain to enable administrative stack management privileges by the heat_domain_admin user:
-openstack role add --domain heat --user-domain heat --user heat_domain_admin admin
+<pre><code class="language-sql">openstack role add --domain heat --user-domain heat --user heat_domain_admin admin </code></pre>
 
 •	Create the heat_stack_owner role:
-openstack role create heat_stack_owner
+<pre><code class="language-sql">openstack role create heat_stack_owner </code></pre>
 
 •	Add the heat_stack_owner role to the demo project and user to enable stack management by the demo user:
-openstack role add --project myproject --user myuser heat_stack_owner
+<pre><code class="language-sql">openstack role add --project myproject --user myuser heat_stack_owner </code></pre>
 #changes made from original demo to myproject and demo to myuser. verify
 
 •	Create the heat_stack_user role:
-openstack role create heat_stack_user
+<pre><code class="language-sql">openstack role create heat_stack_user</code></pre>
 
 
 Install and configure components
 1.	Install the packages:
-apt-get install heat-api heat-api-cfn heat-engine
+<pre><code class="language-sql">apt-get install heat-api heat-api-cfn heat-engine</code></pre>
 #Execute in root@controller
 
 2.	Configuration for Heat
 
-mv /etc/heat/heat.conf /etc/heat/heat.conf.orig
+<pre><code class="language-sql"> mv /etc/heat/heat.conf /etc/heat/heat.conf.orig
 mkdir -p ~/os-template-files
-nano ~/os-template-files/heat.conf
+nano ~/os-template-files/heat.conf </code></pre>
 [DEFAULT]
 transport_url = rabbit://openstack:plungers4900@controller
 heat_metadata_server_url = http://controller:8000
@@ -138,29 +135,29 @@ auth_uri = http://controller:5000
 
 Then you save
 
-cp ~/os-template-files/heat.conf /etc/heat/heat.conf
+<pre><code class="language-sql">cp ~/os-template-files/heat.conf /etc/heat/heat.conf
 chown heat:heat /etc/heat/heat.conf
-chmod 640 /etc/heat/heat.conf
+chmod 640 /etc/heat/heat.conf </code></pre>
 
 
 
 3.	Populate the Orchestration database:
-su -s /bin/sh -c "heat-manage db_sync" heat
+<pre><code class="language-sql"> su -s /bin/sh -c "heat-manage db_sync" heat </code></pre>
 
 
 Finalize installation
 1.	Restart the Orchestration services:
-service heat-api restart
+<pre><code class="language-sql">service heat-api restart
 service heat-api-cfn restart
-service heat-engine restart
+service heat-engine restart </code></pre>
 
 
 Install Heat Plugin on Horizon
-add-apt-repository cloud-archive:caracal
+<pre><code class="language-sql">add-apt-repository cloud-archive:caracal
 apt update
 apt install openstack-dashboard python3-heat-dashboard
 systemctl restart apache2
-then recheck your horizon GUI
+then recheck your horizon GUI</code></pre>
 
 
 
