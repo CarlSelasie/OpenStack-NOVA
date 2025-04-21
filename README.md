@@ -336,49 +336,49 @@ Then restart Apache again:
 
 Task 3
 1.	Setup mysql database
-mysql
+<pre><code class="language-sql">mysql</code></pre>
 
 2.	In the mysql prompt run 
-CREATE DATABASE cinder;
+<pre><code class="language-sql">CREATE DATABASE cinder;
 
 GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'localhost' IDENTIFIED BY 'plungers4900';
 
 GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'%' IDENTIFIED BY 'plungers4900';
 
-EXIT;
+EXIT;</code></pre>
 
  
-. ~/.bash_aliases   # Loads admin environment for root user
+<pre><code class="language-sql">. ~/.bash_aliases</code></pre>  # Loads admin environment for root user
 
  
-openstack user create --domain default --password-prompt cinder
+<pre><code class="language-sql">openstack user create --domain default --password-prompt cinder</code></pre>
 
 # Enter: plungers4900
 
-openstack role add --project service --user cinder admin
+<pre><code class="language-sql">openstack role add --project service --user cinder admin</code></pre>
 
  
-openstack service create --name cinderv3 --description "OpenStack Block Storage" volumev3
+<pre><code class="language-sql">openstack service create --name cinderv3 --description "OpenStack Block Storage" volumev3
  
 openstack endpoint create --region RegionOne volumev3 public http://controller:8776/v3/%\(project_id\)s
 
 openstack endpoint create --region RegionOne volumev3 internal http://controller:8776/v3/%\(project_id\)s
 
-openstack endpoint create --region RegionOne volumev3 admin http://controller:8776/v3/%\(project_id\)s
+openstack endpoint create --region RegionOne volumev3 admin http://controller:8776/v3/%\(project_id\)s</code></pre>
 
  
-apt install cinder-api cinder-scheduler
+<pre><code class="language-sql">apt install cinder-api cinder-scheduler</code></pre>
 
  
 STEP 5: Apply Cinder Configuration  
  
-mv /etc/cinder/cinder.conf /etc/cinder/cinder.conf.orig
+<pre><code class="language-sql">mv /etc/cinder/cinder.conf /etc/cinder/cinder.conf.orig
 
 cp ~/os-template-files/cinder.conf /etc/cinder/cinder.conf
 
 chown root:cinder /etc/cinder/cinder.conf
 
-chmod 640 /etc/cinder/cinder.conf
+chmod 640 /etc/cinder/cinder.conf</code></pre>
 
  
 [database]
