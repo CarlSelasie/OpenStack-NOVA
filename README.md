@@ -154,8 +154,8 @@ Install Heat Plugin on Horizon
 <pre><code class="language-sql">add-apt-repository cloud-archive:caracal
 apt update
 apt install openstack-dashboard python3-heat-dashboard
-systemctl restart apache2
-then recheck your horizon GUI</code></pre>
+systemctl restart apache2</code></pre>
+then recheck your horizon GUI
 
 
 
