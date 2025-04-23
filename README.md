@@ -334,6 +334,10 @@ Then restart Apache again:
 
 
 
+
+
+
+
 Task 3 
 Cinder Deployment
 1.	Setup mysql database
