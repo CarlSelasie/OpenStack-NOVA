@@ -334,7 +334,8 @@ Then restart Apache again:
 
 
 
-Task 3
+Task 3 
+Cinder Deployment
 1.	Setup mysql database
 <pre><code class="language-sql">mysql</code></pre>
 
@@ -428,22 +429,22 @@ Add this block to /etc/nova/nova.conf:
 
 os_region_name = RegionOne
 
- 
+<pre><code class="language-sql"> 
 service nova-api restart
 
 service cinder-scheduler restart
 
-service apache2 restart
+service apache2 restart</code></pre>
 
  
 STEP 9: Verify Cinder
- 
+<pre><code class="language-sql"> 
 openstack volume service list
 
-openstack catalog list | grep volume
+openstack catalog list | grep volume</code></pre>
 
 
-TASK 4
+TASK 4 
 1. Install Barbican packages
  <pre><code class="language-sql">apt update
 apt install barbican-api barbican-keystone-listener barbican-worker python3-barbican -y</code></pre>
