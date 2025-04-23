@@ -442,7 +442,57 @@ openstack volume service list
 
 openstack catalog list | grep volume
 
- 
 
+TASK 4
+1. Install Barbican packages
+ <pre><code class="language-sql">apt update
+apt install barbican-api barbican-keystone-listener barbican-worker python3-barbican -y</code></pre>
+
+2. Configure the Barbican database
+  <pre><code class="language-sql">  mysql
+CREATE DATABASE barbican;
+GRANT ALL PRIVILEGES ON barbican.* TO 'barbican'@'localhost' IDENTIFIED BY 'plungers4900';
+GRANT ALL PRIVILEGES ON barbican.* TO 'barbican'@'%' IDENTIFIED BY 'plungers4900';
+EXIT;</code></pre>
+
+ 3. Create Barbican user and endpoints
+<pre><code class="language-sql">openstack user create --domain default --password-prompt barbican
+openstack role add --project service --user barbican admin
+openstack service create --name barbican --description "OpenStack Key Manager" key-manager</code></pre>
+
+<pre><code class="language-sql">openstack endpoint create --region RegionOne key-manager public http://controller:9311
+openstack endpoint create --region RegionOne key-manager internal http://controller:9311
+openstack endpoint create --region RegionOne key-manager admin http://controller:9311</code></pre>
+
+ 4. Edit the config file
+<pre><code class="language-sql">nano /etc/barbican/barbican.conf</code></pre>
+
+[DEFAULT]
+transport_url = rabbit://openstack:plungers4900@controller
+auth_strategy = keystone
+
+[database]
+connection = mysql+pymysql://barbican:plungers4900@controller/barbican
+
+[keystone_authtoken]
+www_authenticate_uri = http://controller:5000
+auth_url = http://controller:5000
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = barbican
+password = plungers4900
+
+[oslo_messaging_notifications]
+driver = messagingv2
+
+5. Populate the Barbican database
+<pre><code class="language-sql"> su -s /bin/sh -c "barbican-manage db upgrade" barbican</code></pre>
+
+6. Start the Barbican services
+<pre><code class="language-sql">systemctl enable apache2
+systemctl restart apache2</code></pre>
 
 
